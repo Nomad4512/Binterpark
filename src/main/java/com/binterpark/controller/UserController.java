@@ -9,13 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class UserController {
 
     @GetMapping("/join")
-    public String moveToSignupForm(Model model){
-        model.addAttribute("user",new UserRegistrationDto());
+    public String moveToSignupForm(){
         return "signupForm";
     }
 
     @GetMapping("/login")
-    public String moveToLonginForm(){
+    public String moveToLoginForm(){
         return "login";
     }
 }

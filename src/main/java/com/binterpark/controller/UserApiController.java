@@ -19,11 +19,11 @@ public class UserApiController {
     private final UserService userService;
 
     @PostMapping("/join")
-    public ResponseEntity<?> registerUser(@ModelAttribute UserRegistrationDto registrationDto) {
+    public ResponseEntity<?> registerUser(@RequestBody UserRegistrationDto registrationDto) {
 
         User user = userService.registerUser(registrationDto);
 
-        return new ResponseEntity<>(user, HttpStatus.CREATED);
+        return new ResponseEntity<>("회원가입이 완료되었습니다.", HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")

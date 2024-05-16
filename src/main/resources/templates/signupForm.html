@@ -7,25 +7,25 @@
     <div class="container">
         <h1>회원가입</h1>
         <div>
-            <form class="form" th:action=@{/api/users/join} th:object="${user}" method="post" >
+            <form class="form" onsubmit="submitForm(event)">
                 <div class="signup-input">
-                    <label th:for="userEmail" class="input-label" hidden>email</label>
-                    <input type="text" th:field="*{email}" class="input-field" placeholder="이메일">
+                    <label for="userEmail" class="input-label" hidden>email</label>
+                    <input type="text" id="userEmail" name="email" class="input-field" placeholder="이메일">
                     <div class="caution" id="error_msg_email"><label class="error"></label></div>
                 </div>
                 <div class="signup-input">
-                    <label th:for="password" class="input-label" hidden>password</label>
-                    <input type="password" th:field="*{password}" class="input-field" placeholder="비밀번호">
+                    <label for="password" class="input-label" hidden>password</label>
+                    <input type="password" id="password" name="password" class="input-field" placeholder="비밀번호">
                     <div class="caution" id="error_msg_pw"><label class="error"></label></div>
                 </div>
                 <div class="signup-input">
-                    <label th:for="confirmPassword" class="input-label" hidden>password2</label>
-                    <input type="password" th:field="*{confirmPassword}" class="input-field" placeholder="비밀번호 재입력">
+                    <label for="confirmPassword" class="input-label" hidden>password2</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" class="input-field" placeholder="비밀번호 재입력">
                     <div class="caution" id="error_msg_pwr"><label class="error"></label></div>
                 </div>
                 <div class="signup-input">
-                    <label th:for="name" class="input-label" hidden>userName</label>
-                    <input type="text" th:field="*{name}" class="input-field" placeholder="닉네임">
+                    <label for="name" class="input-label" hidden>userName</label>
+                    <input type="text" id="name" name="name" class="input-field" placeholder="닉네임">
                     <div class="caution" id="error_msg_name"><label class="error"></label></div>
                 </div>
                 <div class="signup-btn pdtp30">
