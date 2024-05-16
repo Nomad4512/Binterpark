@@ -19,7 +19,7 @@ public class UserApiController {
     private final UserService userService;
 
     @PostMapping("/join")
-    public ResponseEntity<?> registerUser(@RequestBody UserRegistrationDto registrationDto) {
+    public ResponseEntity<?> registerUser(@ModelAttribute UserRegistrationDto registrationDto) {
 
         User user = userService.registerUser(registrationDto);
 

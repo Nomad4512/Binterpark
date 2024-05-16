@@ -1,5 +1,6 @@
 package com.binterpark.service;
 
+import com.binterpark.common.UserRole;
 import com.binterpark.domain.User;
 import com.binterpark.dto.UserRegistrationDto;
 import com.binterpark.repository.UserRepository;
@@ -25,6 +26,7 @@ public class UserService {
         user.setUserName(registrationDto.getName());
         user.setUserPw(passwordEncoder.encode(registrationDto.getPassword()));
         user.setSignupDate(LocalDateTime.now());
+        user.setUserRole(UserRole.USER);
 
         return userRepository.save(user);
     }
