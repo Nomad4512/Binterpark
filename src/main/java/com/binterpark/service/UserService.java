@@ -5,6 +5,7 @@ import com.binterpark.domain.User;
 import com.binterpark.dto.UserRegistrationDto;
 import com.binterpark.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -59,5 +60,6 @@ public class UserService {
         }
         return false;
     }
+
 
 }

@@ -15,6 +15,6 @@ public class UserController {
 
     @GetMapping("/login")
     public String moveToLoginForm(){
-        return "login";
+        return "loginForm";
     }
 }

@@ -3,6 +3,12 @@ function moveToSignupForm() {
     window.location.href = '/join';
 }
 
+// 메인페이지 -> 로그인 페이지
+function moveToLoginForm() {
+    window.location.href = '/login';
+}
+
+// 회원가입 제출
 async function submitForm(event) {
     event.preventDefault();
 

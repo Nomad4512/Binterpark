@@ -23,6 +23,7 @@ public class UserApiController {
 
         User user = userService.registerUser(registrationDto);
 
+
         return new ResponseEntity<>("회원가입이 완료되었습니다.", HttpStatus.CREATED);
     }
 

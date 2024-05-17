@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{fragments/head.html :: fragments-head}"></div>
+<body>
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <main class="main">
+        <div class="container">
+            <section class="wrapper">
+                <div class="heading">
+                    <h1 class="text text-large">로그인</h1>
+                    <p class="text text-normal">아이디가 없으신가요? <span><a href="/join" class="text text-links">여기를 눌러 회원가입해주세요.</a></span>
+                    </p>
+                </div>
+                <form name="login" class="form">
+                    <div class="input-control">
+                        <label for="email" class="input-label" hidden>Email Address</label>
+                        <input type="email" name="email" id="email" class="input-field" placeholder="이메일 주소">
+                    </div>
+                    <div class="input-control">
+                        <label for="password" class="input-label" hidden>Password</label>
+                        <input type="password" name="password" id="password" class="input-field" placeholder="비밀번호">
+                    </div>
+                    <div class="input-control">
+                        <a href="#" class="text text-links">이메일 / 비밀번호 찾기</a>
+                        <input type="submit" name="submit" class="input-submit" value="로그인">
+                    </div>
+                </form>
+                <div class="striped">
+                    <span class="striped-line"></span>
+                    <span class="striped-text">또는 </span>
+                    <span class="striped-line"></span>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="js/login.js"></script>
+    <div th:replace="~{fragments/libs.html :: fragments-libs}"></div>
+</body>
+</html>
