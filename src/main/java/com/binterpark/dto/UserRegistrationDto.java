@@ -20,4 +20,5 @@ public class UserRegistrationDto extends UserBaseDto{
         this.confirmPassword = confirmPassword;
         this.password = password;
     }
+
 }

@@ -9,7 +9,7 @@ function moveToLoginForm() {
 }
 
 // 회원가입 제출
-async function submitForm(event) {
+async function submitSignupForm(event) {
     event.preventDefault();
 
     const form = event.target;

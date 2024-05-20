@@ -11,7 +11,7 @@
                     <p class="text text-normal">아이디가 없으신가요? <span><a href="/join" class="text text-links">여기를 눌러 회원가입해주세요.</a></span>
                     </p>
                 </div>
-                <form name="login" class="form">
+                <form name="login" class="form" onsubmit="submitLoginForm(event)">
                     <div class="input-control">
                         <label for="email" class="input-label" hidden>Email Address</label>
                         <input type="email" name="email" id="email" class="input-field" placeholder="이메일 주소">
@@ -34,7 +34,7 @@
         </div>
     </main>
 
-    <script src="js/login.js"></script>
+    <script src="/js/login.js"></script>
     <div th:replace="~{fragments/libs.html :: fragments-libs}"></div>
 </body>
 </html>
