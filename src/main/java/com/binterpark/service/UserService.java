@@ -61,15 +61,24 @@ public class UserService {
     }
 
     // 회원가입
+    @Transactional
     public User registerUser(UserRegistrationDto registrationDto) {
         User user = new User();
+        logger.info("default UserRole : "+user.getRoles());
         user.setUserEmail(registrationDto.getEmail());
         user.setUserName(registrationDto.getName());
         user.setUserPw(passwordEncoder.encode(registrationDto.getPassword()));
         user.setSignupDate(LocalDateTime.now());
         user.setRoles(new ArrayList<>(Arrays.asList(UserRole.USER)));
+        logger.info("set UserRole : "+user.getRoles());
 
-        return userRepository.save(user);
+        User savedUser = userRepository.save(user);
+        logger.info("saved User : "+savedUser.getRoles());
+
+        Optional<User> userFromDb = userRepository.findById(savedUser.getUserId());
+        userFromDb.ifPresent(u -> logger.info("userRole from DB : "+u.getRoles()));
+
+        return savedUser;
     }
 
     // 회원정보 가져오기
