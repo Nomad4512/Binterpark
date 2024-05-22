@@ -1,5 +1,8 @@
 package com.binterpark.service;
 
+import com.binterpark.exception.PasswordsNotEqualException;
+import com.binterpark.exception.UserAlreadyExistException;
+import com.binterpark.exception.UserNotFoundException;
 import com.binterpark.common.UserRole;
 import com.binterpark.domain.User;
 import com.binterpark.dto.JwtDto;
@@ -60,7 +63,16 @@ public class UserService {
     // 회원가입
     @Transactional
     public User registerUser(UserRegistrationDto registrationDto) {
+
+        // 이메일 중복 확인
+        if (userRepository.findByUserEmail(registrationDto.getEmail()).isPresent()) {
+            throw new UserAlreadyExistException("이미 등록된 이메일입니다.");
+        }
+
         User user = new User();
+        if (!registrationDto.getPassword().equals(registrationDto.getConfirmPassword())) {
+            throw new PasswordsNotEqualException("비밀번호가 일치하지 않습니다.");
+        }
         user.setUserEmail(registrationDto.getEmail());
         user.setUserName(registrationDto.getName());
         user.setUserPw(passwordEncoder.encode(registrationDto.getPassword()));
@@ -76,27 +88,31 @@ public class UserService {
     }
 
     // 회원정보수정
+    @Transactional
     public User patchUser(Long id, Map<String, Object> updates) {
-        Optional<User> user = userRepository.findById(id);
-        if (user.isPresent()) {
-            User u = user.get();
-            if (updates.containsKey("password")) {
-                u.setUserPw(passwordEncoder.encode((String) updates.get("password")));
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("사용자를 찾을 수 없습니다."));
+
+        updates.forEach((key, value) -> {
+            System.out.println("key:"+key+", value:"+value);
+            switch (key) {
+                case "password" -> user.setUserPw(passwordEncoder.encode((String) value));
+                case "name" -> user.setUserName((String) value);
+
+                // 필요한 다른 필드들
+                default -> throw new IllegalArgumentException("잘못된 필드: " + key);
             }
-            if (updates.containsKey("name")) {
-                u.setUserName((String) updates.get("name"));
-            }
-            return userRepository.save(u);
-        }
-        return null;
+        });
+        return userRepository.save(user);
     }
 
     // 회원삭제
-    public boolean deleteUser(Long id) {
-        if (userRepository.existsById(id)) {
-            userRepository.deleteById(id);
-        }
-        return false;
+    @Transactional
+    public void deleteUser(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("사용자를 찾을 수 없습니다."));
+
+        userRepository.deleteById(id);
     }
 
 

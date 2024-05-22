@@ -55,6 +55,9 @@ public class User implements UserDetails {
         return userEmail;
     }
 
+    // 위의 getUsername() 때문에 제대로 인식되지 않는 것 같아 직접 Getter 작성
+    public String getUserName() { return userName; }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;

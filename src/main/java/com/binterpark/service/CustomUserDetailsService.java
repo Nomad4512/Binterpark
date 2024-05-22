@@ -1,6 +1,5 @@
 package com.binterpark.service;
 
-import com.binterpark.common.UserRole;
 import com.binterpark.domain.User;
 import com.binterpark.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +21,6 @@ import java.lang.annotation.Target;
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
     Logger logger = LoggerFactory.getLogger(Target.class);
 
     @Override
