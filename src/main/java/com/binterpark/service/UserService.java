@@ -13,15 +13,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.annotation.Target;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
 
@@ -64,21 +61,13 @@ public class UserService {
     @Transactional
     public User registerUser(UserRegistrationDto registrationDto) {
         User user = new User();
-        logger.info("default UserRole : "+user.getRoles());
         user.setUserEmail(registrationDto.getEmail());
         user.setUserName(registrationDto.getName());
         user.setUserPw(passwordEncoder.encode(registrationDto.getPassword()));
         user.setSignupDate(LocalDateTime.now());
-        user.setRoles(new ArrayList<>(Arrays.asList(UserRole.USER)));
-        logger.info("set UserRole : "+user.getRoles());
+        user.setUserRole(UserRole.USER.getRoleName());
 
-        User savedUser = userRepository.save(user);
-        logger.info("saved User : "+savedUser.getRoles());
-
-        Optional<User> userFromDb = userRepository.findById(savedUser.getUserId());
-        userFromDb.ifPresent(u -> logger.info("userRole from DB : "+u.getRoles()));
-
-        return savedUser;
+        return userRepository.save(user);
     }
 
     // 회원정보 가져오기

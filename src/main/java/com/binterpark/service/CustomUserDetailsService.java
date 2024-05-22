@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -43,9 +44,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getUserEmail())
                 .password(user.getUserPw())
-                .roles(user.getRoles().stream()
-                        .map(UserRole::getRoleName)
-                        .toArray(String[]::new))
+                .authorities(new SimpleGrantedAuthority(user.getUserRole()))
                 .build();
     }
 }

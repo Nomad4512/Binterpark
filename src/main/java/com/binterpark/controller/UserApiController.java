@@ -54,6 +54,7 @@ public class UserApiController {
         try {
             User user = userService.findById(id)
                     .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+            logger.info("Get userRole : "+user.getUserRole());
             return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);

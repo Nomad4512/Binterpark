@@ -8,10 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
@@ -39,16 +36,13 @@ public class User implements UserDetails {
     @Column(name = "signup_date", nullable = false)
     private LocalDateTime signupDate;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @Enumerated(EnumType.STRING)
-    @Builder.Default
-    private List<UserRole> roles = new ArrayList<>(Arrays.asList(UserRole.USER));
+    @Column(name = "user_role", nullable = false)
+    private String userRole;
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roles.stream()
-                .map(role -> new SimpleGrantedAuthority(role.getRoleName()))
-                .collect(Collectors.toList());
+        public Collection<? extends GrantedAuthority> getAuthorities() {
+        UserRole role = UserRole.fromRoleName(userRole);
+        return Collections.singletonList(new SimpleGrantedAuthority(role.getRoleName()));
     }
 
     @Override
