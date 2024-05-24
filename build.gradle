@@ -9,6 +9,7 @@ version = '0.0.1-SNAPSHOT'
 
 java {
 	sourceCompatibility = '17'
+	targetCompatibility = '17'
 }
 
 configurations {
@@ -37,6 +38,14 @@ dependencies {
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+}
+
+jar {
+	manifest {
+		attributes(
+				'Main-Class': 'com.binterpark.BinterparkApplication'
+		)
+	}
 }
 
 tasks.named('test') {

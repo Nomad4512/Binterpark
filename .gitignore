@@ -5,9 +5,8 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 src/main/resources/application.yml
-#src/test/resources/application.yml
-Dockerfile
-.dockerignore
+src/test/resources/application.yml
+
 
 ### STS ###
 .apt_generated
@@ -40,4 +39,10 @@ out/
 ### VS Code ###
 .vscode/
 
-
+### Docker ###
+Dockerfile
+docker-compose.yml
+.dockerignore
+my-httpd.conf
+.env
+/META-INF/MANIFEST.MF
