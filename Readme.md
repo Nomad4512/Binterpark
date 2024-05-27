@@ -7,6 +7,7 @@ Binterpark는 백엔드에 중점을 둔 개인 프로젝트로, 인터넷 쇼�
 - 프로그래밍 언어: Java 17
 - 프레임워크: Spring Boot 3
 - 보안: Spring Security 6
-- 데이터베이스: Spring Data JPA, MySQL 8
+- 데이터베이스: Spring Data JPA, MySQL 8.0.33
 - 인증 및 권한 부여: JWT (JSON Web Token)
 - 템플릿 엔진: Thymeleaf
+- 컨테이너화 및 오케스트레이션: Docker 26.1.1, Kubernetes 1.30.1

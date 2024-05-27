@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: binterpark-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: binterpark-app
+  template:
+    metadata:
+      labels:
+        app: binterpark-app
+    spec:
+      containers:
+        - name: binterpark
+          image: hyunbinban/binterpark-app:0.1  # Docker 이미지 경로
+          ports:
+            - containerPort: 8080
