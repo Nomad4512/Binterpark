@@ -42,6 +42,12 @@ public class User implements UserDetails {
     @Column(name = "user_role", nullable = false)
     private String userRole;
 
+    @Column(name = "address", nullable = true)
+    private String address;
+
+    @Column(name = "phone_number", nullable = true)
+    private String phoneNumber;
+
     @Override
         public Collection<? extends GrantedAuthority> getAuthorities() {
         UserRole role = UserRole.fromRoleName(userRole);
