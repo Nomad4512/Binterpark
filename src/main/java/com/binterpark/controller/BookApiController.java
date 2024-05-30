@@ -15,7 +15,7 @@ public class BookApiController {
 
     private final BookService bookService;
 
-    // 검색 기능
+    // 도서 검색 기능
     @GetMapping("/search")
     public ResponseEntity<?> searchBooks(@RequestParam(required = false) String keyword) {
         return ResponseEntity.ok(bookService.searchBooks(keyword));
