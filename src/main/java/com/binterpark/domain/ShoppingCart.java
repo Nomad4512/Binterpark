@@ -1,19 +1,22 @@
 package com.binterpark.domain;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "shopping_cart")
-@Data
+@Getter
+@Setter
 @RequiredArgsConstructor
 public class ShoppingCart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "cart_id")
     private Long cartId;
 
     @ManyToOne(fetch = FetchType.LAZY)

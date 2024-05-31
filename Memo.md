@@ -1,2 +1,7 @@
 - Book entity에 category를 포함, 더 추가해야할 것 있는지 파악해서 추가
 - BookResponseDto를 BookSearchResponseDto와 BookSpecificResponseDto로 나누어 필요한 정보만 요청하게(특히 상세정보)
+- Product를 부모, Book과 Ticket을 자식으로 상속화
+- 엔티티 수정사항 ERD 적용해서 재배포
+- Custom 예외처리 기준 정하기
+- 예외처리는 어디서 할건지 기준 정하기
+- (5/31~) 메모 시작일과 유효기간 정해서 작성하기

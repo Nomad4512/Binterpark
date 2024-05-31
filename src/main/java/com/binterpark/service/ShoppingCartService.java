@@ -1,5 +1,6 @@
 package com.binterpark.service;
 
+import com.binterpark.common.Validation;
 import com.binterpark.domain.Product;
 import com.binterpark.domain.ShoppingCart;
 import com.binterpark.domain.User;
@@ -21,12 +22,12 @@ public class ShoppingCartService {
     private final ShoppingCartRepository shoppingCartRepository;
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
+    private final Validation validation;
 
-    public void addToCart(Long userId, Long productId, int quantity) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid user ID: " + userId));
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid product ID: " + productId));
+    public ShoppingCart addToCart(Long userId, Long productId, int quantity) {
+        User user = validation.validateUserId(userId);
+        Product product = validation.validateProductId(productId);
+        validation.validatePositiveQuantity(quantity);
 
         ShoppingCart item = new ShoppingCart();
         item.setUser(user);
@@ -34,7 +35,7 @@ public class ShoppingCartService {
         item.setQuantity(quantity);
         item.setDateAdded(LocalDateTime.now());
 
-        shoppingCartRepository.save(item);
+        return shoppingCartRepository.save(item);
     }
 
     public List<ShoppingCartResponseDto> getCartItems(Long userId) {
@@ -46,24 +47,25 @@ public class ShoppingCartService {
     }
 
     public void removeFromCart(Long cartId, Long productId) {
+
         ShoppingCart cart = shoppingCartRepository.findById(cartId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid cart Id : " + cartId));
+                .orElseThrow(() -> new IllegalArgumentException("Invalid cart ID : " + cartId));
         Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid product Id : " + productId));
-        shoppingCartRepository.deleteItemFromCart(cart.getCartId(),product.getProductId());
+                .orElseThrow(() -> new IllegalArgumentException("Invalid product ID : " + productId));
+
+        shoppingCartRepository.deleteItemFromCart(cartId, productId);
     }
 
     private ShoppingCartResponseDto convertCartInfoToDto (ShoppingCart cart) {
-        User user = new User();
-        user.setUserId(cart.getUser().getUserId());
 
         ShoppingCartResponseDto dto = new ShoppingCartResponseDto();
         dto.setCartId(cart.getCartId());
-        dto.setUserId(user.getUserId());
+        dto.setUserId(cart.getUser().getUserId());
         dto.setProduct(cart.getProduct());
         dto.setQuantity(cart.getQuantity());
         dto.setDateAdded(cart.getDateAdded());
 
         return dto;
     }
+
 }
