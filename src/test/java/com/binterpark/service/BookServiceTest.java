@@ -1,7 +1,7 @@
 package com.binterpark.service;
 
 import com.binterpark.domain.Book;
-import com.binterpark.dto.BookResponseDto;
+import com.binterpark.dto.BookSpecificResponseDto;
 import com.binterpark.exception.InvalidSearchKeywordException;
 import com.binterpark.repository.BookRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -60,7 +60,7 @@ class BookServiceTest {
         String keyword = "결국";
         when(bookRepository.findByTitleOrAuthor(keyword)).thenReturn(Arrays.asList(book1));
 
-        List<BookResponseDto> result = bookService.searchBooks(keyword);
+        List<BookSpecificResponseDto> result = bookService.searchBooks(keyword);
 
         assertNotNull(result);
         assertEquals(1, result.size());
@@ -84,7 +84,7 @@ class BookServiceTest {
         Long bookId = 2L;
         when(bookRepository.findById(bookId)).thenReturn(Optional.of(book2));
 
-        BookResponseDto result = bookService.findBookById(bookId);
+        BookSpecificResponseDto result = bookService.findBookById(bookId);
 
         assertNotNull(result);
         assertEquals("Clean Code", result.getTitle());

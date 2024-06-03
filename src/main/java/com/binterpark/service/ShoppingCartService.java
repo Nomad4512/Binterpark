@@ -40,7 +40,7 @@ public class ShoppingCartService {
 
     public List<ShoppingCartResponseDto> getCartItems(Long userId) {
 
-        List<ShoppingCart> cart = shoppingCartRepository.findByUserId(userId);
+        List<ShoppingCart> cart = shoppingCartRepository.findByUser_UserId(userId);
         return cart.stream()
                 .map(this::convertCartInfoToDto)
                 .collect(Collectors.toList());

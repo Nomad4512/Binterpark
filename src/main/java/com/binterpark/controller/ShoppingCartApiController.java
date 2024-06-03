@@ -3,6 +3,7 @@ package com.binterpark.controller;
 import com.binterpark.domain.ShoppingCart;
 import com.binterpark.dto.ShoppingCartResponseDto;
 import com.binterpark.service.ShoppingCartService;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -35,13 +36,31 @@ public class ShoppingCartApiController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<List<ShoppingCartResponseDto>> getCartItems(@PathVariable(name = "userId") Long userId) {
-        return ResponseEntity.ok(shoppingCartService.getCartItems(userId));
+    public ResponseEntity<?> getCartItems(@PathVariable(name = "userId") Long userId) {
+        try {
+            List<ShoppingCartResponseDto> cartItems = shoppingCartService.getCartItems(userId);
+            return ResponseEntity.ok(cartItems);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }catch (Exception e) {
+            log.error("장바구니 목록 가져오기 실패", e);
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @DeleteMapping("/remove/{cartId}")
-    public ResponseEntity<Void> removeFromCart(@PathVariable(name = "cartId") Long cartId, @RequestParam(value = "productId") Long productId) {
-        shoppingCartService.removeFromCart(cartId, productId);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Void> removeFromCart(@PathVariable(name = "cartId") Long cartId,
+                                               @RequestParam(value = "productId") Long productId) {
+        try {
+            shoppingCartService.removeFromCart(cartId, productId);
+            return ResponseEntity.ok().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            log.error("장바구니 항목 제거 실패", e);
+            return ResponseEntity.internalServerError().build();
+        }
     }
+
+
 }

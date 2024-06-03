@@ -1,9 +1,7 @@
 package com.binterpark.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -11,7 +9,9 @@ import java.time.LocalDateTime;
 @Table(name = "shopping_cart")
 @Getter
 @Setter
+@Builder
 @RequiredArgsConstructor
+@AllArgsConstructor
 public class ShoppingCart {
 
     @Id

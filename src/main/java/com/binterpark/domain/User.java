@@ -11,8 +11,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -47,6 +49,10 @@ public class User implements UserDetails {
 
     @Column(name = "phone_number", nullable = true)
     private String phoneNumber;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<ShoppingCart> shoppingCarts = new ArrayList<>();
+
 
     @Override
         public Collection<? extends GrantedAuthority> getAuthorities() {

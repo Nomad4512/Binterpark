@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface ShoppingCartRepository extends JpaRepository <ShoppingCart,Long> {
 
-    List<ShoppingCart> findByUserId (Long userId);
+    List<ShoppingCart> findByUser_UserId (Long userId);
 
     @Modifying
     @Transactional

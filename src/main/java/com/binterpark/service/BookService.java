@@ -1,7 +1,7 @@
 package com.binterpark.service;
 
 import com.binterpark.domain.Book;
-import com.binterpark.dto.BookResponseDto;
+import com.binterpark.dto.BookSpecificResponseDto;
 import com.binterpark.exception.InvalidSearchKeywordException;
 import com.binterpark.repository.BookRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -18,7 +18,7 @@ public class BookService {
     private final BookRepository bookRepository;
 
     // 도서 검색 기능
-    public List<BookResponseDto> searchBooks (String keyword) {
+    public List<BookSpecificResponseDto> searchBooks (String keyword) {
 
         if (keyword == null || keyword.isBlank()) {
             throw new InvalidSearchKeywordException("Search keyword must not be empty");
@@ -33,15 +33,15 @@ public class BookService {
     }
 
     // 도서 상세 정보 조회
-    public BookResponseDto findBookById (Long id) {
+    public BookSpecificResponseDto findBookById (Long id) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Book not found with id " + id));
 
         return convertBookToDto(book);
     }
 
-    private BookResponseDto convertBookToDto (Book book) {
-        BookResponseDto dto = new BookResponseDto();
+    private BookSpecificResponseDto convertBookToDto (Book book) {
+        BookSpecificResponseDto dto = new BookSpecificResponseDto();
         dto.setBookId(book.getBookId());
         dto.setTitle(book.getTitle());
         dto.setAuthor(book.getAuthor());
