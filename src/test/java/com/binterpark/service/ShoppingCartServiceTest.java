@@ -59,8 +59,16 @@ class ShoppingCartServiceTest {
         User user = new User();
         user.setUserId(userId);
 
-        Product product = new Product();
-        product.setProductId(productId);
+        Product product = Product.builder()
+                .productId(productId)
+                .name("Sample Product")
+                .category("Sample Category")
+                .price(100)
+                .availableQuantity(10)
+                .viewCount(0)
+                .soldCount(0)
+                .reviewCount(0)
+                .build();
 
         when(validation.validateUserId(userId)).thenReturn(user);
         when(validation.validateProductId(productId)).thenReturn(product);
@@ -110,8 +118,19 @@ class ShoppingCartServiceTest {
         Long productId = testData.getValidProductId();
         int quantity = testData.getInvalidQuantity();
 
+        Product product = Product.builder()
+                .productId(productId)
+                .name("Sample Product") // 필수 필드 설정
+                .category("Sample Category") // 필수 필드 설정
+                .price(100) // 필수 필드 설정
+                .availableQuantity(10) // 필수 필드 설정
+                .viewCount(0) // 필수 필드 설정
+                .soldCount(0) // 필수 필드 설정
+                .reviewCount(0) // 필수 필드 설정
+                .build();
+
         when(validation.validateUserId(userId)).thenReturn(new User());
-        when(validation.validateProductId(productId)).thenReturn(new Product());
+        when(validation.validateProductId(productId)).thenReturn(product);
         doThrow(new IllegalArgumentException("유효하지 않은 수량 : " + quantity)).when(validation).validatePositiveQuantity(quantity);
 
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {

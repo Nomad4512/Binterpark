@@ -52,7 +52,7 @@ public class Validation {
     public void validateLessThanStockQuantity (Long bookId, int quantity) {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 bookId : " + bookId));
-        int stockQuantity = book.getStockQuantity();
+        int stockQuantity = book.getAvailableQuantity();
         if (quantity > stockQuantity) {
             throw new IllegalArgumentException("요청 수량(" + quantity + ")이 재고 수량(" + stockQuantity + ")보다 많습니다.");
         }

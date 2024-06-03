@@ -1,6 +1,7 @@
 package com.binterpark.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +9,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@Builder
 public class BookSearchResponseDto {
 
     // 제시정보 : 책표지, 카테고리, 이름, 저자, 출판사, 발행일, 가격, 할인가격(있으면), 판매량
@@ -27,36 +29,9 @@ public class BookSearchResponseDto {
     private int viewCount;                  // 조회수
     private int reviewCount;                // 리뷰수
 
-    // 할인 가격이 있는 경우의 생성자
-    public BookSearchResponseDto(String category, String name, String author, String publisher,
-                                 LocalDateTime publishedDate, int price, int discountedPrice,
-                                 int soldCount, int viewCount, int reviewCount) {
-        this.category = category;
-        this.name = name;
-        this.author = author;
-        this.publisher = publisher;
-        this.publishedDate = publishedDate;
-        this.price = price;
-        this.discountedPrice = discountedPrice;
-        this.soldCount = soldCount;
-        this.viewCount = viewCount;
-        this.reviewCount = reviewCount;
-    }
-
-    // 할인 가격이 없는 경우의 생성자
-    public BookSearchResponseDto(String category, String name, String author, String publisher,
-                                 LocalDateTime publishedDate, int price, int soldCount,
-                                 int viewCount, int reviewCount) {
-        this.category = category;
-        this.name = name;
-        this.author = author;
-        this.publisher = publisher;
-        this.publishedDate = publishedDate;
-        this.price = price;
-        this.discountedPrice = null; // 할인 가격을 null로 설정
-        this.soldCount = soldCount;
-        this.viewCount = viewCount;
-        this.reviewCount = reviewCount;
-    }
-
+    /*
+    * 오버라이드한 생성자를 결정 못하는 이슈 발생 => 단일 생성자 + discountedPrice null?
+    * 코드가 단순해지고 유지보수가 용이하나 유연이 감소하고 Null Pointer Exception 잠재적으로 발생가능, 명시적 의도 표현도 부족하다.
+    * 양쪽의 장점을 모두 챙길 수 있는 Builder Pattern 사용 결정
+    */
 }

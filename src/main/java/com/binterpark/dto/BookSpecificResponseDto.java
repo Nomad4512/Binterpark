@@ -1,5 +1,6 @@
 package com.binterpark.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -8,6 +9,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@Builder
 public class BookSpecificResponseDto {
 
     private Long bookId;                // 책 ID
@@ -24,39 +26,4 @@ public class BookSpecificResponseDto {
     private String mainImage;           // 표지 이미지 URL
     private String specificImage;        // 상세 이미지 URL
 
-    // 할인 가격이 있는 경우의 생성자
-    public BookSpecificResponseDto(Long bookId, String category, String name, String author, String isbn, int price, Integer discountedPrice,
-                                   int soldCount, String publisher, LocalDateTime publishedDate, String bookDescription, String mainImage, String specificImage) {
-        this.bookId = bookId;
-        this.category = category;
-        this.name = name;
-        this.author = author;
-        this.isbn = isbn;
-        this.price = price;
-        this.discountedPrice = discountedPrice;
-        this.soldCount = soldCount;
-        this.publisher = publisher;
-        this.publishedDate = publishedDate;
-        this.bookDescription = bookDescription;
-        this.mainImage = mainImage;
-        this.specificImage = specificImage;
-    }
-
-    // 할인 가격이 없는 경우의 생성자
-    public BookSpecificResponseDto(Long bookId, String category, String name, String author, String isbn, int price,
-                                   int soldCount, String publisher, LocalDateTime publishedDate, String bookDescription, String mainImage, String specificImage) {
-        this.bookId = bookId;
-        this.category = category;
-        this.name = name;
-        this.author = author;
-        this.isbn = isbn;
-        this.price = price;
-        this.discountedPrice = null; // 할인 가격을 null로 설정
-        this.soldCount = soldCount;
-        this.publisher = publisher;
-        this.publishedDate = publishedDate;
-        this.bookDescription = bookDescription;
-        this.mainImage = mainImage;
-        this.specificImage = specificImage;
-    }
 }

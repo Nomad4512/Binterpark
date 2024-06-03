@@ -21,7 +21,7 @@ public class BookService {
     public List<BookSpecificResponseDto> searchBooks (String keyword) {
 
         if (keyword == null || keyword.isBlank()) {
-            throw new InvalidSearchKeywordException("Search keyword must not be empty");
+            throw new InvalidSearchKeywordException("검색어를 입력해주세요.");
         }
 
         String processedKeyword = keyword.strip().toLowerCase();
@@ -35,23 +35,26 @@ public class BookService {
     // 도서 상세 정보 조회
     public BookSpecificResponseDto findBookById (Long id) {
         Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Book not found with id " + id));
+                .orElseThrow(() -> new EntityNotFoundException("책 정보를 찾을 수 없습니다. ID : " + id));
 
         return convertBookToDto(book);
     }
 
     private BookSpecificResponseDto convertBookToDto (Book book) {
-        BookSpecificResponseDto dto = new BookSpecificResponseDto();
-        dto.setBookId(book.getBookId());
-        dto.setTitle(book.getTitle());
-        dto.setAuthor(book.getAuthor());
-        dto.setIsbn(book.getIsbn());
-        dto.setPrice(book.getPrice());
-        dto.setDiscountedPrice(book.getDiscountedPrice());
-        dto.setSoldCount(book.getSoldCount());
-        dto.setPublisher(book.getPublisher());
-        dto.setBookDescription(book.getBookDescription());
-
-        return dto;
+        return BookSpecificResponseDto.builder()
+                .bookId(book.getBookId())
+                .category(book.getCategory())
+                .name(book.getName())  // 변경된 필드명 사용
+                .author(book.getAuthor())
+                .isbn(book.getIsbn())
+                .price(book.getPrice())
+                .discountedPrice(book.getDiscountedPrice())
+                .soldCount(book.getSoldCount())
+                .publisher(book.getPublisher())
+                .publishedDate(book.getPublishedDate())
+                .bookDescription(book.getDescription())
+                .mainImage(book.getMainImage())
+                .specificImage(book.getSpecificImage())
+                .build();
     }
 }
