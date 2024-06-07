@@ -4,16 +4,18 @@ import com.binterpark.common.Validation;
 import com.binterpark.domain.Product;
 import com.binterpark.domain.User;
 import com.binterpark.domain.Wishlist;
+import com.binterpark.dto.WishResponseDto;
 import com.binterpark.repository.WishlistRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.lang.annotation.Target;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,9 +24,9 @@ public class WishlistService {
 
     private final WishlistRepository wishlistRepository;
     private final Validation validation;
-    Logger logger = LoggerFactory.getLogger(Target.class);
+    private static final Logger logger = LoggerFactory.getLogger(WishlistService.class);
 
-    public Wishlist addToWish (Long userId, Long productId) {
+    public WishResponseDto addToWish (Long userId, Long productId) {
         User user = validation.validateUserId(userId);
         Product product = validation.validateProductId(productId);
 
@@ -38,14 +40,17 @@ public class WishlistService {
         item.setProduct(product);
         item.setDateAdded(LocalDateTime.now());
 
-        return wishlistRepository.save(item);
+        wishlistRepository.save(item);
+        return convertToDto(item);
     }
 
-    public List<Wishlist> getWishList (Long userId) {
+    public List<WishResponseDto> getWishList(Long userId) {
         validation.validateUserId(userId);
-        return wishlistRepository.findByUser_UserId(userId);
+        List<Wishlist> items = wishlistRepository.findByUser_UserId(userId);
+        return items.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
+    @Transactional
     public boolean removeItemFromWish(Long wishId, Long productId) {
 
         Wishlist wishlist = wishlistRepository.findById(wishId)
@@ -64,5 +69,14 @@ public class WishlistService {
             logger.error("찜에서 상품을 삭제 중 에러가 발생했습니다.", e);
             return false;
         }
+    }
+
+    private WishResponseDto convertToDto(Wishlist wishlist) {
+        return new WishResponseDto(
+                wishlist.getWishId(),
+                wishlist.getUser().getUserId(),
+                wishlist.getProduct().getProductId(),
+                wishlist.getDateAdded()
+        );
     }
 }

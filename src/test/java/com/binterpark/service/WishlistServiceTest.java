@@ -4,6 +4,7 @@ import com.binterpark.common.Validation;
 import com.binterpark.domain.Product;
 import com.binterpark.domain.User;
 import com.binterpark.domain.Wishlist;
+import com.binterpark.dto.WishResponseDto;
 import com.binterpark.repository.WishlistRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -59,12 +60,12 @@ class WishlistServiceTest {
         when(validation.validateProductId(productId)).thenReturn(product);
         when(wishlistRepository.save(any(Wishlist.class))).thenReturn(wishlist);
 
-        Wishlist result = wishlistService.addToWish(userId, productId);
+        WishResponseDto result = wishlistService.addToWish(userId, productId);
 
         // Then
         assertNotNull(result);
-        assertEquals(userId, result.getUser().getUserId());
-        assertEquals(productId, result.getProduct().getProductId());
+        assertEquals(userId, result.getUserId());
+        assertEquals(productId, result.getProductId());
         verify(wishlistRepository, times(1)).save(any(Wishlist.class));
     }
 
@@ -160,13 +161,13 @@ class WishlistServiceTest {
 
         // When
         when(wishlistRepository.findByUser_UserId(userId)).thenReturn(wishlists);
-        List<Wishlist> result = wishlistService.getWishList(userId);
+        List<WishResponseDto> result = wishlistService.getWishList(userId);
 
         // Then
         assertNotNull(result);
         assertEquals(2, result.size());
-        assertEquals(101L, result.get(0).getProduct().getProductId());
-        assertEquals(102L, result.get(1).getProduct().getProductId());
+        assertEquals(101L, result.get(0).getProductId());
+        assertEquals(102L, result.get(1).getProductId());
         verify(wishlistRepository, times(1)).findByUser_UserId(userId);
     }
 
